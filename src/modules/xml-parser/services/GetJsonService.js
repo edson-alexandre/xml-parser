@@ -9,18 +9,18 @@ module.exports = class GetJsonService {
     return this.toCamelCase(obj);
   }
 
-  toCamelCase = (obj) => {
-    if (Array.isArray(obj)) {
-      return obj.map((v) => this.toCamelCase(v));
-    } else if (obj != null && obj.constructor === Object) {
-      return Object.keys(obj).reduce(
+  toCamelCase = (value) => {
+    if (Array.isArray(value)) {
+      return value.map((v) => this.toCamelCase(v));
+    } else if (value != null && value.constructor === Object) {
+      return Object.keys(value).reduce(
         (result, key) => ({
           ...result,
-          [camelCase(key)]: this.toCamelCase(obj[key]),
+          [camelCase(key)]: this.toCamelCase(value[key]),
         }),
         {}
       );
     }
-    return obj;
+    return value;
   };
 };
