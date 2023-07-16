@@ -6,17 +6,17 @@ module.exports = class GetJsonService {
     const parser = new XMLParser();
     const obj = parser.parse(xml);
     delete obj["?xml"];
-    return this.camelizeKeys(obj);
+    return this.toCamelCase(obj);
   }
 
-  camelizeKeys = (obj) => {
+  toCamelCase = (obj) => {
     if (Array.isArray(obj)) {
-      return obj.map((v) => this.camelizeKeys(v));
+      return obj.map((v) => this.toCamelCase(v));
     } else if (obj != null && obj.constructor === Object) {
       return Object.keys(obj).reduce(
         (result, key) => ({
           ...result,
-          [camelCase(key)]: this.camelizeKeys(obj[key]),
+          [camelCase(key)]: this.toCamelCase(obj[key]),
         }),
         {}
       );
